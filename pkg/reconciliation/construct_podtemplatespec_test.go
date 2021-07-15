@@ -954,9 +954,9 @@ func Test_makeImage(t *testing.T) {
 			args: args{
 				serverImage:   "",
 				serverType:    "cassandra",
-				serverVersion: "3.11.7",
+				serverVersion: "3.11.10",
 			},
-			want:      "k8ssandra/cass-management-api:3.11.7-v0.1.25",
+			want:      images.Cassandra_3_11_10.String(),
 			errString: "",
 		},
 		{
