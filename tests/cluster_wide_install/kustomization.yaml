@@ -5,24 +5,27 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 patchesJson6902:
 - target:
-    group: apps
-    version: v1
-    name: controller-manager
-    kind: Deployment
-  patch: |-
-    - op: remove
-      path: /spec/template/spec/containers/0/env/0/valueFrom
-    - op: add
-      path: /spec/template/spec/containers/0/env/0/value
-      value: ""
-- target:
     group: rbac.authorization.k8s.io
     version: v1
     kind: ClusterRoleBinding
-    name: cass-operator-manager-crrole
+    name: cass-operator-manager-rolebinding
   patch: |-
-    - op: add
+    - op: replace
+      path: /metadata/namespace
+      value: test-cluster-wide-install
+    - op: replace
       path: /subjects/0/namespace
       value: test-cluster-wide-install
+- target:
+    group: rbac.authorization.k8s.io
+    version: v1
+    kind: ClusterRole
+    name: cass-operator-manager-crrole
+  patch: |-
+    - op: replace
+      path: /metadata/namespace
+      value: test-cluster-wide-install
+
 resources:
 - ../../config/cluster
+
